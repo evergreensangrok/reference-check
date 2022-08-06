@@ -2,5 +2,7 @@
 __pycache__/
 .idea/
 db.sqlite3
+db.py
+db/
 .pytest_cache
 
