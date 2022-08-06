@@ -9,7 +9,7 @@ class SignUpView(APIView):
 
     permission_classes = [permissions.AllowAny]
 
-    def post(self, request):
+    def post(self, request) -> Response:
         user_serializer = UserSerializer(data=request.data)
 
         if user_serializer.is_valid():
