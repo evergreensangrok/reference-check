@@ -3,6 +3,7 @@ import os
 
 import dotenv
 import pytest
+from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 from rest_framework.test import APIClient
 
@@ -28,7 +29,9 @@ class TestUser:
         self.user_type_evaluator = self.create_user_type(name="evaluator")
         self.company = self.create_company(name="company1")
         self.career_interest = self.create_career_interest(career="it")
-        User.objects.create(email="candidate@test.com", password=os.environ.get("CI_TEST_PASS"))
+        User.objects.create(
+            email="candidate@test.com", password=make_password(os.environ.get("CI_TEST_PASS")), mobile="010-1111-1111"
+        )
 
     def create_user_type(self, **kwargs):
         user_type = UserType(**kwargs)
@@ -46,7 +49,13 @@ class TestUser:
         return career_interest
 
     def test_user_registration(self) -> None:
-        data = {"email": "candidate2@test.com", "password": self.test_pass, "user_type": 1, "career_interest": 1}
+        data = {
+            "email": "candidate2@test.com",
+            "password": self.test_pass,
+            "user_type": 1,
+            "career_interest": 1,
+            "mobile": "010-1111-1111",
+        }
         response = self.client.post(reverse("sign-up"), data, fomrat="json")
         assert response.status_code == 200
 
@@ -70,3 +79,8 @@ class TestUser:
 
         assert response.status_code == 400
         assert response_body["user_type"] == ["Incorrect type. Expected pk value, received str."]
+
+    def test_user_sign_in(self) -> None:
+        data = {"email": "candidate@test.com", "password": self.test_pass}
+        response = self.client.post(reverse("sign-in"), data, fomrat="json")
+        assert response.status_code == 200

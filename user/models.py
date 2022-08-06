@@ -39,7 +39,7 @@ class User(AbstractUser):
     user_type = models.ForeignKey("UserType", on_delete=models.SET_NULL, null=True)
     company = models.ForeignKey("Company", on_delete=models.SET_NULL, null=True)
     career_interest = models.ForeignKey("CareerInterest", on_delete=models.SET_NULL, null=True)
-
+    mobile = models.CharField(max_length=20)
     password = models.CharField(max_length=128)
     join_date = models.DateTimeField(auto_now_add=True)
 
@@ -70,6 +70,16 @@ class Company(models.Model):
 
     class Meta:
         db_table = "companies"
+
+    def __str__(self):
+        return self.name
+
+
+class Department(models.Model):
+    name = models.CharField(max_length=128)
+
+    class Meta:
+        db_table = "departments"
 
     def __str__(self):
         return self.name
