@@ -18,3 +18,18 @@ class ReferenceRequest(models.Model):
 
     def __str__(self):
         return f"{self.requester} - request"
+
+
+class Reference(models.Model):
+    reference_request = models.ForeignKey(ReferenceRequest, on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, on_delete=models.CASCADE)
+    reference_comment = models.TextField()
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "references"
+
+    def __str__(self):
+        return f"{self.writer.email} - reference"

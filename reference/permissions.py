@@ -32,3 +32,28 @@ class IsCandidateOrEvaluatorReadOnly(BasePermission):
             return True
 
         return False
+
+
+class IsEvaluatorOrCompanyAdminReadOnly(BasePermission):
+    """
+    평가자만 평판 작성 가능, 기업 관리자만 평판 조회 가능
+    """
+
+    message = "접근 권한이 없습니다."
+
+    def has_permission(self, request, view):
+        user = request.user
+
+        if not user.is_authenticated:
+            response = {
+                "detail": "서비스를 이용하기 위해 로그인 해주세요.",
+            }
+            raise GenericAPIException(status_code=status.HTTP_401_UNAUTHORIZED, detail=response)
+
+        if user.user_type.name == "evaluator" and request.method == "POST":
+            return True
+
+        if user.user_type.name == "company_admin" and request.method == "GET":
+            return True
+
+        return False
