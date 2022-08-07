@@ -76,18 +76,25 @@ WSGI_APPLICATION = "project.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": os.environ.get("RDS_ENGINE"),
-        "NAME": os.environ.get("RDS_NAME"),
-        "USER": os.environ.get("RDS_USER"),
-        "PASSWORD": os.environ.get("RDS_PASSWORD"),
-        "HOST": os.environ.get("RDS_HOST"),
-        "PORT": os.environ.get("RDS_PORT"),
-        "OPTIONS": {"charset": "utf8mb4"},
+if DEBUG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": os.environ.get("RDS_ENGINE"),
+            "NAME": os.environ.get("RDS_NAME"),
+            "USER": os.environ.get("RDS_USER"),
+            "PASSWORD": os.environ.get("RDS_PASSWORD"),
+            "HOST": os.environ.get("RDS_HOST"),
+            "PORT": os.environ.get("RDS_PORT"),
+            "OPTIONS": {"charset": "utf8mb4"},
+        }
+    }
 
 
 # Password validation
