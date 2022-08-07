@@ -1,0 +1,14 @@
+.github
+.idea
+Dockerfile
+.dockerignore
+*.md
+*.yml
+*.yaml
+*.sh
+*.cfg
+*.ini
+__pycache__/
+db.py
+db/
+.pytest_cache
