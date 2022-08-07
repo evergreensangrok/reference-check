@@ -46,3 +46,6 @@
 ├── setup.cfg
 └── pytest.ini                (pytest configuration)
 ```
+
+## ERD
+![erd](https://user-images.githubusercontent.com/31560131/183278680-cb51d1ea-c62d-4d17-83a1-093c3c01fafd.png)
